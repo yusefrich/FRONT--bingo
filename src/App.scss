@@ -106,8 +106,8 @@ p,h1,h2,h3,h4,h5{
   padding-top: 40px;
   .ball{
     font-size: 90px;
-    background: var(--primary);
-    color: var(--white);
+    background: var(--white);
+    color: var(--dark);
     display: inline-block;
     width: 50%;
     padding-top: calc(7% * 2);
@@ -121,37 +121,39 @@ p,h1,h2,h3,h4,h5{
   border-radius: 30px;
   .ball{
     display: inline-block;
-    background: var(--dark);
-    color: var(--white);
+    background: var(--white);
+    color: var(--dark);
     margin: 10px;
-    font-size: 50px;
-    width: 90px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    font-size: 40px;
+    width: 50px;
+    padding-top: 0px;
+    padding-bottom: 0px;
     border-radius: 100%;
-    border: 5px solid var(--white);
   }
 }
-.b-orange{
-  background: orange !important;
+.b-0{
+  border: 30px solid orange !important;
 }
-.b-red{
-  background: rgb(236, 86, 86) !important;
+.b-1{
+  border: 30px solid rgb(236, 86, 86) !important;
 }
-.b-cyan{
-  background: rgb(115, 196, 250) !important;
+.b-2{
+  border: 30px solid rgb(115, 196, 250) !important;
 }
-.b-green{
-  background: green !important;
+.b-3{
+  border: 30px solid green !important;
 }
-.b-greenyellow{
-  background: greenyellow !important;
+.b-4{
+  border: 30px solid greenyellow !important;
 }
-.b-goldenrod{
-  background: goldenrod !important;
+.b-5{
+  border: 30px solid goldenrod !important;
 }
-.b-coral{
-  background: coral !important;
+.b-6{
+  border: 30px solid coral !important;
+}
+.d-flex{
+  display: flex;
 }
 /* cartelas */
 .cards{
@@ -177,6 +179,10 @@ margin-left: 30px;
       border-radius: 10px;
       background: var(--secondary);
       margin: 10px;
+      &.active{
+        background: var(--primary) !important;
+        color: var(--white) !important;
+      }
     }
   }
 }
