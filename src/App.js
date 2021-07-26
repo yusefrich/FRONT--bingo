@@ -4,6 +4,10 @@ import './Background.scss';
 import Numbers from './components/Numbers'
 import { useEffect, useReducer, useState } from 'react';
 import api from './services/api'
+import {
+  useParams
+} from "react-router-dom";
+import Modal from './components/Modal'
 
 function App() {
   const [stack, setStack] = useState([])
@@ -13,6 +17,9 @@ function App() {
   const [current, setCurrent] = useState(-1)
   const [latests, setLatests] = useState([])
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  const [modal, setModal] = useState(false)
+
+  let { id } = useParams();
 
   useEffect(() => {
     for (let index = 0; index <= 90; index++) {
@@ -49,11 +56,12 @@ function App() {
     setStack(stackRaw)
 
     /* calling endpoint */
-    api.post(`/api/bingos/1/run?ball=${stackRaw[rolledIndex]}&position=${rolledRaw.length + 1}&type=${type}`, {}).then((res)=>{
+    api.post(`/api/bingos/${id}/run?ball=${stackRaw[rolledIndex]}&position=${rolledRaw.length + 1}&type=${type}`, {}).then((res)=>{
       console.log('response', res)
       setBests(res.data.data.bests)
     }).catch((error) => {
       console.log('error', error)
+      setModal(true)
     }).finally(()=>{
       forceUpdate();
     })
@@ -76,7 +84,7 @@ function App() {
         <div className="header">
           <div className="h-row">
             <div className="h-col">
-              <h1>Efetuando sorteio: 32</h1>
+              <h1>Efetuando sorteio: {id}</h1>
             </div>
             <div className="h-col">
               <h1>Acumulado</h1>
@@ -149,6 +157,7 @@ function App() {
           </div>
         </div>
       </div>
+      <Modal active={modal} close={()=>setModal(false)} redirect={true} title="Código de bingo inválido" subtitle="O código desse bingo se encontra inválido no momento, por favor tente novamente" />
     </div>
   );
 }
