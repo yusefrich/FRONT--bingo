@@ -18,6 +18,12 @@ function App() {
   const [latests, setLatests] = useState([])
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   const [modal, setModal] = useState(false)
+  const [kuadraWinnerModal, setKuadraWinnerModal] = useState(false)
+  const [kinaWinnerModal, setKinaWinnerModal] = useState(false)
+  const [bingoWinnerModal, setBingoWinnerModal] = useState(false)
+  const [kuadra, setKuadra] = useState(null)
+  const [kina, setKina] = useState(null)
+  const [bingo, setBingo] = useState(null)
 
   let { id } = useParams();
 
@@ -58,7 +64,26 @@ function App() {
     /* calling endpoint */
     api.post(`/api/bingos/${id}/run?ball=${stackRaw[rolledIndex]}&position=${rolledRaw.length + 1}&type=${type}`, {}).then((res)=>{
       console.log('response', res)
+      setModal(false)
+      setKuadraWinnerModal(false)
+      setKinaWinnerModal(false)
+      setBingoWinnerModal(false)
       setBests(res.data.data.bests)
+      if(res.data.data.kina_winner){
+        setKinaWinnerModal(true)
+        setKina(res.data.data.kina_winner)
+        setType(2)
+      }
+      if(res.data.data.kuadra_winner){
+        setKuadraWinnerModal(true)
+        setKuadra(res.data.data.kuadra_winner)
+        setType(3)
+      }
+      if(res.data.data.bingo_winner){
+        setBingoWinnerModal(true)
+        setType(4)
+        setBingo(res.data.data.bingo_winner)
+      }
     }).catch((error) => {
       console.log('error', error)
       setModal(true)
@@ -158,6 +183,9 @@ function App() {
         </div>
       </div>
       <Modal active={modal} close={()=>setModal(false)} redirect={true} title="Código de bingo inválido" subtitle="O código desse bingo se encontra inválido no momento, por favor tente novamente" />
+      <Modal active={kuadraWinnerModal} close={()=>setKuadraWinnerModal(false)} redirect={true} title={`Ganhador da kuadra!!! ${kuadra}`} subtitle={`Parabéns ${kuadra}, vc foi o ganhador`} />
+      <Modal active={kinaWinnerModal} close={()=>setKinaWinnerModal(false)} redirect={true} title={`Ganhador da kina!!! ${kina}`} subtitle={`Parabéns ${kina}, vc foi o ganhador`} />
+      <Modal active={bingoWinnerModal} close={()=>setBingoWinnerModal(false)} redirect={true} title={`BINGO!!!! ${bingo}`} subtitle={`Parabéns ${bingo}, vc foi o ganhador`} />
     </div>
   );
 }
