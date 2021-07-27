@@ -11,7 +11,7 @@ import Modal from './components/Modal'
 
 function App() {
   const [stack, setStack] = useState([])
-  const [type, setType] = useState(1)
+  const [type, setType] = useState(1)/* 1 = kuadra, 2 = kine, 3 = bingo */
   const [bests, setBests] = useState([])
   const [rolled, setRolled] = useState([])
   const [current, setCurrent] = useState(-1)
@@ -58,19 +58,18 @@ function App() {
       setKinaWinnerModal(false)
       setBingoWinnerModal(false)
       setBests(res.data.data.bests)
-      if(res.data.data.kina_winner){
-        setKinaWinnerModal(true)
-        setKina(res.data.data.kina_winner)
-        setType(2)
-      }
       if(res.data.data.kuadra_winner){
         setKuadraWinnerModal(true)
         setKuadra(res.data.data.kuadra_winner)
+        setType(2)
+      }
+      if(res.data.data.kina_winner){
+        setKinaWinnerModal(true)
+        setKina(res.data.data.kina_winner)
         setType(3)
       }
       if(res.data.data.bingo_winner){
         setBingoWinnerModal(true)
-        setType(4)
         setBingo(res.data.data.bingo_winner)
       }
     }).catch((error) => {
