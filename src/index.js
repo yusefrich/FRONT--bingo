@@ -14,7 +14,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Switch>
-        <Route path="/bingo/:id">
+        <Route path="/room/:id">
           <App />
         </Route>
         <Route path="/">

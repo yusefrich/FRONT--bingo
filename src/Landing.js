@@ -35,10 +35,10 @@ export default function Landing() {
                 <div className="d-flex just-center">
                     <button onClick={()=>addNumber('0')} type="button" className="btn btn-key">0</button>
                     <button onClick={()=>deleteNumber()} type="button" className="btn btn-key danger">X</button>
-                    <a href={'/bingo/'+code} type="button" className="btn btn-key primary deco-none"><CgEnter/></a>
+                    <a href={'/room/'+code} type="button" className="btn btn-key primary deco-none"><CgEnter/></a>
                 </div>
             </div>
-            {/* <a href="/bingo"> Entrar</a> */}
+            {/* <a href="/room"> Entrar</a> */}
         </div>
     )
 }
