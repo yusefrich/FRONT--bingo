@@ -32,10 +32,10 @@ function App() {
       stack.push(index)
     }
     setStack(stack)
-    rollBall()
+    /* rollBall() */
     const interval = setInterval(() => {
-      /* rollBall() */
-    }, 3000);
+      rollBall()
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
