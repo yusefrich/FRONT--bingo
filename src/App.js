@@ -32,9 +32,9 @@ function App() {
       stack.push(index)
     }
     setStack(stack)
-
+    rollBall()
     const interval = setInterval(() => {
-      rollBall()
+      /* rollBall() */
     }, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -48,21 +48,10 @@ function App() {
     }
 
     const rolledIndex = getRandomInt(0, stackRaw.length)
-    /* setting up ball */
-    rolledRaw.push(stackRaw[rolledIndex])
-    setRolled(rolledRaw)
-    
-    setCurrent(stackRaw[rolledIndex])
-    latests.unshift(stackRaw[rolledIndex])
-    if(latests.length > 10){
-      latests.pop()
-    }
-    setLatests(latests)
-    stackRaw.splice(rolledIndex, 1);
-    setStack(stackRaw)
+    const rolledBall = stackRaw[rolledIndex]
 
     /* calling endpoint */
-    api.post(`/api/bingos/${id}/run?ball=${stackRaw[rolledIndex]}&position=${rolledRaw.length + 1}&type=${type}`, {}).then((res)=>{
+    await api.post(`/api/bingos/${id}/run?ball=${rolledBall}&position=${rolledRaw.length + 1}&type=${type}`, {}).then((res)=>{
       console.log('response', res)
       setModal(false)
       setKuadraWinnerModal(false)
@@ -87,9 +76,20 @@ function App() {
     }).catch((error) => {
       console.log('error', error)
       setModal(true)
-    }).finally(()=>{
-      forceUpdate();
     })
+    /* setting up ball */
+    rolledRaw.push(rolledBall)
+    setRolled(rolledRaw)
+    
+    setCurrent(rolledBall)
+    latests.unshift(rolledBall)
+    if(latests.length > 10){
+      latests.pop()
+    }
+    setLatests(latests)
+    stackRaw.splice(rolledIndex, 1);
+    setStack(stackRaw)
+    
     forceUpdate();
   }
 
@@ -126,15 +126,6 @@ function App() {
             </div>
             <div className="previous">
               {latests.map((val) => (<h2 className={`ball b-${val%6}`}>{val}</h2>))}
-              {/* <h2 className="ball b-red">41</h2>
-              <h2 className="ball b-cyan">61</h2>
-              <h2 className="ball b-green">81</h2>
-              <h2 className="ball b-greenyellow">54</h2>
-              <h2 className="ball b-goldenrod">43</h2>
-              <h2 className="ball b-coral">44</h2>
-              <h2 className="ball b-orange">45</h2>
-              <h2 className="ball b-red">46</h2>
-              <h2 className="ball b-cyan">47</h2> */}
             </div>
           </div>
           <div className="col">
@@ -153,31 +144,6 @@ function App() {
                   ))}
                 </div>
               ))}
-
-              {/* <div className="card">
-                <h2 className="title">card - 61</h2>
-                <div className="d-flex">
-                  <h3 className="number">43</h3>
-                  <h3 className="number">65</h3>
-                  <h3 className="number">76</h3>
-                  <h3 className="number">12</h3>
-                  <h3 className="number">15</h3>
-                </div>
-                <div className="d-flex">
-                  <h3 className="number">43</h3>
-                  <h3 className="number">65</h3>
-                  <h3 className="number">76</h3>
-                  <h3 className="number">12</h3>
-                  <h3 className="number">15</h3>
-                </div>
-                <div className="d-flex">
-                  <h3 className="number">43</h3>
-                  <h3 className="number">65</h3>
-                  <h3 className="number">76</h3>
-                  <h3 className="number">12</h3>
-                  <h3 className="number">15</h3>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
