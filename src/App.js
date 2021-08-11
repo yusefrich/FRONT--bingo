@@ -20,6 +20,9 @@ function App() {
   const [kuadraWinnerModal, setKuadraWinnerModal] = useState(false)
   const [kinaWinnerModal, setKinaWinnerModal] = useState(false)
   const [bingoWinnerModal, setBingoWinnerModal] = useState(false)
+  const [kuadraWinnerModalOpen, setKuadraWinnerModalOpen] = useState(false)
+  const [kinaWinnerModalOpen, setKinaWinnerModalOpen] = useState(false)
+  const [bingoWinnerModalOpen, setBingoWinnerModalOpen] = useState(false)
   const [kuadra, setKuadra] = useState(null)
   const [kina, setKina] = useState(null)
   const [bingo, setBingo] = useState(null)
@@ -27,6 +30,8 @@ function App() {
   const [kinaData, setKinaData] = useState(null)
   const [bingoData, setBingoData] = useState(null)
   const [fullData, setFullData] = useState(null)
+  const [time, setTime] = useState(5000)
+  const [stop, setStop] = useState(false)
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
   let { id } = useParams();
@@ -37,33 +42,42 @@ function App() {
     }
     setStack(stack)
     /* rollBall() */
+    let kinaRaw = null
+    let kuadraRaw = null
+    let bingoRaw = null
+
+    let kinaDataRaw = null
+    let kuadraDataRaw = null
+    let bingoDataRaw = null
+
     const interval = setInterval(() => {
-      rollBall()
-    }, 5000);
+      rollBall(kinaRaw, kuadraRaw, bingoRaw, kinaDataRaw, kuadraDataRaw, bingoDataRaw)
+    }, time);
     return () => clearInterval(interval);
   }, []);
 
-  async function rollBall () {
+  function setTimeWin () {
+    console.log("set being called okok")
+    setTime(10000)
+    forceUpdate();
+    setTimeout( function() { setTime(5000); forceUpdate(); }, 10000);
+  }
+
+  async function rollBall (kinaRaw, kuadraRaw, bingoRaw, kinaDataRaw, kuadraDataRaw, bingoDataRaw) {
     let rolledRaw = rolled ? rolled : []
     let stackRaw = stack ? stack : []
-    
-    let kinaRaw = kina ? kina : null
-    let kuadraRaw = kuadra ? kuadra : null
-    let bingoRaw = bingo ? bingo : null
-
-
-    let kinaDataRaw = kinaData ? kinaData : null
-    let kuadraDataRaw = kuadraData ? kuadraData : null
-    let bingoDataRaw = bingoData ? bingoData : null
+    if (stop){
+      return
+    }
 
     if(stackRaw.length <= 0){
       return
     }
     /* setting all modals to false */
     setModal(false)
-    setKuadraWinnerModal(false)
+    /* setKuadraWinnerModal(false)
     setKinaWinnerModal(false)
-    setBingoWinnerModal(false)
+    setBingoWinnerModal(false) */
 
 
     const rolledIndex = getRandomInt(0, stackRaw.length)
@@ -75,76 +89,93 @@ function App() {
       result = res
 
       /* new bets cards being set */
-      setBests(res.data.data.bests)
-      setFullData(res.data.data)
-  
-      if(res.data.data.kuadra_winner){
-        /* kuadraRaw = res.data.data.kuadra_winner
-        kuadraDataRaw = res.data.data.kuadra */
-        setKuadra(res.data.data.kuadra_winner)
-        setKuadraData(res.data.data.kuadra)
-        /* if(!kuadraRaw){
-          setKuadraWinnerModal(true)
-          kuadraRaw = res.data.data.kuadra_winner
-          setKuadraData(res.data.data.kuadra)
-        } */
-        setType(2)
-      }
-      if(res.data.data.kina_winner){
-        /* kinaRaw = res.data.data.kina_winner
-        kinaDataRaw = res.data.data.kina */
-        setKina(res.data.data.kina_winner)
-        setKinaData(res.data.data.kina)
-        /* if(!kinaRaw){
-          setKinaWinnerModal(true)
-          kinaRaw = res.data.data.kina_winner
-          setKinaData(res.data.data.kina)
-        } */
-        setType(3)
-      }
-      if(res.data.data.bingo_winner){
-        /* bingoRaw = res.data.data.bingo_winner
-        bingoDataRaw = res.data.data.bingo */
-        setBingo(res.data.data.bingo_winner)
-        setBingoData(res.data.data.bingo)
-        /* if(!bingoRaw){
-          console.log('setting bingo', bingo)
-          setBingoWinnerModal(true)
-          bingoRaw = res.data.data.bingo_winner
-          setBingoData(res.data.data.bingo)
-        } */
-      }
+
       forceUpdate();
     }).catch((error) => {
       console.log('error', error)
       setModal(true)
-    }).finally(()=>{
-      /* setting up ball */
-      rolledRaw.push(rolledBall)
-      setRolled(rolledRaw)
-      
-      setCurrent(rolledBall)
-      latests.unshift(rolledBall)
-      if(latests.length > 8){
-        latests.pop()
-      }
-      setLatests(latests)
-      stackRaw.splice(rolledIndex, 1);
-      setStack(stackRaw)
-      
-      forceUpdate();
     })
-    await forceUpdate();
     console.log('before set ', result)
-    if(!kuadra){
-      setKuadraWinnerModal(true)
+    console.log('before set ', kuadraRaw)
+    console.log('before set ', kinaRaw)
+    console.log('before set ', bingoRaw)
+
+    setBests(result.data.data.bests)
+    setFullData(result.data.data)
+
+
+    if(result.data.data.kuadra_winner){
+      if(!kuadraRaw){
+        kuadraRaw = result.data.data.kuadra_winner
+        kuadraDataRaw = result.data.data.kuadra
+        console.log('inside set ', kuadraRaw)
+        console.log('inside set ', result.data.data.kuadra_winner)
+        if (kuadraWinnerModalOpen) {
+          setKuadraWinnerModal(false)
+        } else {
+          setKuadraWinnerModal(true)
+          setKuadraWinnerModalOpen(true)
+          setTime(9000)
+        }
+        setKuadra(kuadraRaw)
+        setKuadraData(kuadraDataRaw)
+      }
+      setType(2)
     }
-    if(!kina){
-      setKinaWinnerModal(true)
+    if(result.data.data.kina_winner){
+      if(!kinaRaw){
+        kinaRaw = result.data.data.kina_winner
+        kinaDataRaw = result.data.data.kina
+        if(kinaWinnerModalOpen){
+
+          setKinaWinnerModal(false)
+        }else {
+          setKinaWinnerModal(true)
+          setKinaWinnerModalOpen(true)
+        }
+        setKina(kinaRaw)
+        setKinaData(kinaDataRaw)
+      }
+      setType(3)
     }
-    if(!bingo){
-      setBingoWinnerModal(true)
+    if(result.data.data.bingo_winner){
+      setStopF()
+      if(!bingoRaw){
+        bingoRaw = result.data.data.bingo_winner
+        bingoDataRaw = result.data.data.bingo
+        if(bingoWinnerModalOpen){
+          setBingoWinnerModal(false)
+
+        }else {
+          setBingoWinnerModal(true)
+          setBingoWinnerModalOpen(true)
+
+        }
+        setBingo(bingoRaw)
+        setBingoData(bingoDataRaw)
+      }
     }
+
+    /* setting up ball */
+    rolledRaw.push(rolledBall)
+    setRolled(rolledRaw)
+    
+    setCurrent(rolledBall)
+    latests.unshift(rolledBall)
+    if(latests.length > 8){
+      latests.pop()
+    }
+    setLatests(latests)
+    stackRaw.splice(rolledIndex, 1);
+    setStack(stackRaw)
+    
+    forceUpdate();
+    
+  }
+
+  function setStopF() {
+    setStop(true);
+    forceUpdate();
   }
 
   function getRandomInt(min, max) {
@@ -270,8 +301,8 @@ function App() {
         </div>
       </div>
       <Modal active={modal} close={()=>setModal(false)} redirect={true} title="Código de bingo inválido" subtitle="O código desse bingo se encontra inválido no momento, por favor tente novamente" />
-      {kuadraData && <Modal active={kuadraWinnerModal} close={()=>setKuadraWinnerModal(false)} redirect={false} winner={kuadraData} title={`Ganhador da kuadra!!! ${kuadraData.player}`} subtitle={`Parabéns ${kuadraData.player}, vc foi o ganhador`} />}
-      {kinaData && <Modal active={kinaWinnerModal} close={()=>setKinaWinnerModal(false)} redirect={false} winner={kinaData} title={`Ganhador da kina!!! ${kinaData.player}`} subtitle={`Parabéns ${kinaData.player}, vc foi o ganhador`} />}
+      {kuadraData && <Modal setWin={()=>setTimeWin()} out={true} active={kuadraWinnerModal} close={()=>setKuadraWinnerModal(false)} redirect={false} winner={kuadraData} title={`Ganhador da kuadra!!! ${kuadraData.player}`} subtitle={`Parabéns ${kuadraData.player}, vc foi o ganhador`} />}
+      {kinaData && <Modal setWin={()=>setTimeWin()} out={true} active={kinaWinnerModal} close={()=>setKinaWinnerModal(false)} redirect={false} winner={kinaData} title={`Ganhador da kina!!! ${kinaData.player}`} subtitle={`Parabéns ${kinaData.player}, vc foi o ganhador`} />}
       {bingoData && <Modal active={bingoWinnerModal} close={()=>setBingoWinnerModal(false)} redirect={false} winner={bingoData} title={`BINGO!!!! ${bingoData.player}`} subtitle={`Parabéns ${bingoData.player}, vc foi o ganhador`} />}
     </div>
   );
