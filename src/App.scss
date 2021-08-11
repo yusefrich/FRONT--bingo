@@ -37,6 +37,10 @@ code {
   color: white;
 }
 
+.justify-between{
+  justify-content: space-between;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -59,7 +63,11 @@ code {
   --danger: #e63946;
   --dark: #1d3557;
   --white: #fafafa;
-  --gray: #dce0f33a;
+  --gray: #dce0f3cf;
+  --kuadra: #0b8d21;
+  --kina: #33abf0;
+  --keno: #e91f1f;
+  --total: #ebac25;
 }
 .App{
   background: transparent;
@@ -75,10 +83,41 @@ p,h1,h2,h3,h4,h5{
   margin-top: calc(var(--bs-gutter-y) * -1);
   margin-right: calc(var(--bs-gutter-x) * -.5);
   margin-left: calc(var(--bs-gutter-x) * -.5);
+  margin-left: auto;
+  margin-right: auto;
 }
 .col {
   flex: 0 0 auto;
+}
+.col-data{
+  width: 77%;
+}
+.col-cartelas{
+  width: 22%;
+}
+.col-numbers{
+  width: 30%;
+}
+.col-list{
+  width: 60%;
+}
+.col-ball{
+  width: 40%;
+}
+.col-main{
+  width: 70%;
+}
+.col-4{
   width: 33.333%;
+}
+.col-left{
+  width: 35%;
+}
+.col-center{
+  width: 40%;
+}
+.col-right{
+  width: 25%;
 }
 .container{
   width: 100%;
@@ -89,11 +128,11 @@ p,h1,h2,h3,h4,h5{
   .number{
     display: inline-block;
     background: var(--secondary);
-    width: 45px;
-    padding-top: 10px;
-    padding-bottom: 15px;
+    width: 12%;
+    padding-top: 2%;
+    padding-bottom: 2%;
     border-radius: 10px;
-    margin: 8px;
+    margin: 1px;
     &.active{
       background: var(--primary);
       color: var(--white);
@@ -105,13 +144,14 @@ p,h1,h2,h3,h4,h5{
 .current-ball{
   padding-top: 40px;
   .ball{
+    text-align: center !important;
     font-size: 90px;
     background: var(--white);
     color: var(--dark);
     display: inline-block;
-    width: 50%;
-    padding-top: calc(7% * 2);
-    padding-bottom: calc(7% * 2);
+    width: 150px;
+    height: 130px;
+    padding-top: 20px;
     border-radius: 100%;
   }
 }
@@ -119,7 +159,12 @@ p,h1,h2,h3,h4,h5{
   display: block;
   background: var(--gray);
   border-radius: 30px;
+  text-align: right;
+  position: absolute;
+  width: 78%;
+  bottom: 20px;
   .ball{
+    text-align: center !important;
     display: inline-block;
     background: var(--white);
     color: var(--dark);
@@ -132,53 +177,57 @@ p,h1,h2,h3,h4,h5{
   }
 }
 .b-0{
-  border: 30px solid orange !important;
+  border: 20px solid orange !important;
 }
 .b-1{
-  border: 30px solid rgb(236, 86, 86) !important;
+  border: 20px solid rgb(236, 86, 86) !important;
 }
 .b-2{
-  border: 30px solid rgb(115, 196, 250) !important;
+  border: 20px solid rgb(115, 196, 250) !important;
 }
 .b-3{
-  border: 30px solid green !important;
+  border: 20px solid green !important;
 }
 .b-4{
-  border: 30px solid greenyellow !important;
+  border: 20px solid greenyellow !important;
 }
 .b-5{
-  border: 30px solid goldenrod !important;
+  border: 20px solid goldenrod !important;
 }
 .b-6{
-  border: 30px solid coral !important;
+  border: 20px solid coral !important;
 }
 .d-flex{
   display: flex;
 }
 /* cartelas */
 .cards{
-width: 70%;
 margin-left: 30px;
   .card{
     display: block;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
     -webkit-box-shadow: 0px 0px 22px -2px rgba(0,0,0,0.16); 
     box-shadow: 0px 0px 22px -2px rgba(0,0,0,0.16);
-    margin-bottom: 30px;
+    margin-bottom: 5px;
     background: white;
+    h4{
+      margin-top: 5px;
+      margin-bottom: 15px;
+    }
     .title{
       color: var(--primary);
       margin-top: 0;
+      margin-bottom: 5px;
     }
     .number{
       display: inline-block;
-      width: 45px;
-      padding-top: 10px;
-      padding-bottom: 15px;
+      width: 100%;
+      padding-top: 7px;
+      padding-bottom: 10px;
       border-radius: 10px;
       background: var(--secondary);
-      margin: 10px;
+      margin: 2px;
       &.active{
         background: var(--primary) !important;
         color: var(--white) !important;
@@ -205,7 +254,7 @@ margin-left: 30px;
   }
   .h-col {
     flex: 0 0 auto;
-    width: 50%;
+    width: 25%;
   }  
 }
 .btn{
@@ -239,4 +288,119 @@ margin-left: 30px;
 }
 .deco-none{
   text-decoration: none;
+}
+.text-white{
+  color: var(--white)
+}
+.w-90{
+  width: 90%;
+}
+.text-card{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.card-type{
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  &.kuadra{
+    background: var(--kuadra);
+  }
+  &.kina{
+    background: var(--kina);
+  }
+  &.keno{
+    background: var(--keno);
+  }
+}
+.card-price{
+  border-radius: 10px;
+  background: var(--white);
+}
+.player-list{
+  li{
+    list-style-type: none;
+  }
+  h3{
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+  .placement{
+    color: var(--white);
+    background: var(--success);
+    padding: 3px;
+    border-radius: 5px;
+  }
+  .id{
+    color: var(--white);
+    background: var(--dark);
+    padding: 3px;
+    border-radius: 5px;
+    margin-left: 5px;
+  }
+  .kua{
+    color: var(--white);
+    background: var(--kuadra);
+    padding: 3px;
+    border-radius: 5px;
+    margin-left: 5px;
+    width: 45px;
+  }
+  .ki{
+    color: var(--white);
+    background: var(--kina);
+    padding: 3px;
+    border-radius: 5px;
+    margin-left: 5px;
+    width: 45px;
+  }
+  .to{
+    color: var(--white);
+    background: var(--total);
+    padding: 3px;
+    border-radius: 5px;
+    margin-left: 5px;
+    width: 45px;
+  }
+  .player{
+    background: var(--gray);
+    color: var(--primary);
+    padding: 3px;
+    border-radius: 5px;
+    margin-left: 5px;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+.pulse{
+  animation: pulse 1s infinite;
+  border: 4px solid var(--success);
+}
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(83, 28, 236, 0.513);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 20px rgba(83, 28, 236, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(83, 28, 236, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(83, 28, 236, 0.4);
+    box-shadow: 0 0 0 0 rgba(83, 28, 236, 0.4);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 20px rgba(83, 28, 236, 0);
+      box-shadow: 0 0 0 20px rgba(83, 28, 236, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(83, 28, 236, 0);
+      box-shadow: 0 0 0 0 rgba(83, 28, 236, 0);
+  }
 }

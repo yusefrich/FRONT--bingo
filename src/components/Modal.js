@@ -21,6 +21,17 @@ export default function Modal(props) {
                 <button onClick={()=>close()} className="close">X</button>
                 <h2>{props.title}</h2>
                 <h4>{props.description}</h4>
+                {props.winner && 
+                <div className="card">
+                    <h4> {props.winner.player}</h4>
+                    {props.winner.card.map(row => (
+                        <div className="d-flex justify-between">
+                        {row.map(col=>(
+                            <h3 className={`number ${col.hit === 1 ? 'active' : ''}`}>{col.number}</h3>
+                        ))}
+                        </div>
+                    ))}
+                </div>}
                 <div className="d-flex just-center">
                     <button onClick={()=>close()} className="continue">Continuar</button>
                 </div>
